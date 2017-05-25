@@ -2,7 +2,7 @@
 /* Table: MUROS                                                 */
 /*==============================================================*/
 create table MUROS (
-    ID          	INT4                 not null,
+    ID          	     INT4                 not null,
     primary key (ID)
 );
 	
@@ -10,12 +10,12 @@ create table MUROS (
 /* Table: USUARIOS                                              */
 /*==============================================================*/
 create table USUARIOS (
-   ID           INT4                 not null,
-   USUARIOS              VARCHAR(25)          not null,
+   ID                   INT4                 not null,
+   USERNAME             VARCHAR(25)          not null,
    PASSWORD             VARCHAR(15)          not null,
-   TIPO_USUARIO         INT4                 null,
-   RUN                  INT4                 null,
-   EMAIL                VARCHAR(40)          null,
+   TIPO_USUARIO         INT4                 NOT null,
+   RUN                  INT4                 not null,
+   EMAIL                VARCHAR(40)          not null,
    TELEFONO             INT4                 null,
    ACTIVO 			       	BOOLEAN	       			 not null,
    VISIBLE              BOOLEAN              not null,
@@ -26,10 +26,10 @@ create table USUARIOS (
 /* Table: HISTORIALES                                           */
 /*==============================================================*/
 create table HISTORIALES (
-   ID          	INT4                 not null,
-   ID_USUARIO				INT4                 not null,
-   FECHA 					DATE 				 not null,
-   HORA 					TIME 				 not null,
+   ID          	        INT4                 not null,
+   ID_USUARIO		     		INT4                 not null,
+   FECHA 				       	DATE 	         			 not null,
+   HORA 					      TIME 	 			         not null,
    primary key (ID),
    FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID)
 );
@@ -38,11 +38,11 @@ create table HISTORIALES (
 /* Table: CATASTROFES                                           */
 /*==============================================================*/
 create table CATASTROFES (
-   ID        INT4                 not null,
-   ID_USUARIO           INT4                 null,
-   DESCRIPCION	        VARCHAR(20)          null,
-   REGION               VARCHAR(15)          null,
-   COMUNA               VARCHAR(15)          null,
+   ID                   INT4                 not null,
+   ID_USUARIO           INT4                 not null,
+   DESCRIPCION	        VARCHAR(50)          not null,
+   REGION               VARCHAR(20)          not null,
+   COMUNA               VARCHAR(20)          not null,
    primary key (ID),
    FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID)
 );
@@ -54,16 +54,17 @@ create table EVENTOS (
    ID                   INT4                 not null,
    ID_CATASTROFE        INT4                 not null,
    ID_USUARIO           INT4                 not null,
-   ID_MURO             	INT4                 null,
-   NOMBRE_MEDIDA        VARCHAR(15)          null,
-   FECHA_INICIO         DATE                 null,
-   FECHA_TERMINO        DATE                 null,
-   AVANCE               DECIMAL              null,
-   DIRECCION            VARCHAR(50)          null,
-   FECHA                DATE                 null,
-   HORA                 TIME                 null,
-   MONTO_RECAUDADO      INT4                 null,
-   primary key (ID),
+   ID_MURO             	INT4                 not null,
+   NOMBRE_MEDIDA        VARCHAR(25)          not null,
+   FECHA_INICIO         DATE                 not null,
+   FECHA_TERMINO        DATE                 not null,
+   AVANCE               DECIMAL              not null,
+   DIRECCION            VARCHAR(50)          not null,
+   -- FECHA                DATE                 not null,
+   HORA                 TIME                 not null,
+   META                 INT4                 not null,
+   RECAUDACION_ACTUAL   INT4                 not null,
+   PRIMARY KEY (ID),
    FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFES(ID),
    FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID),
    FOREIGN KEY (ID_MURO) REFERENCES MUROS(ID)
@@ -76,7 +77,8 @@ create table ACTIVIDADES (
    ID                   INT4                 not null,
    ID_EVENTO	       		INT4		        		 not null,
    ID_USUARIO           INT4                 not null,
-   DESCRIPCION          VARCHAR(100)         null,
+   DESCRIPCION          VARCHAR(100)         not null,
+   RECAUDACION          INT4                 not null,
    PRIMARY KEY (ID),
    FOREIGN KEY (ID_EVENTO) REFERENCES EVENTOS(ID),
    FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID)
@@ -86,17 +88,17 @@ create table ACTIVIDADES (
 /* Table: VOLUNTARIADOS                                          */
 /*==============================================================*/
 create table VOLUNTARIADOS (
-   ID      INT4                 not null,
+   ID                   INT4                 not null,
    ID_CATASTROFE        INT4                 not null,
    ID_USUARIO           INT4                 not null,
    ID_MURO             	INT4                 not null,
-   NOMBRE_MEDIDA        VARCHAR(15)          null,
-   FECHA_INICIO         DATE                 null,
-   FECHA_TERMINO        DATE                 null,
-   AVANCE               DECIMAL              null,
-   PERFIL_VOLUNTARIO    VARCHAR(20)          null,
-   PERSONAS             INT4                 null,
-   TIPO_TRABAJO         VARCHAR(20)          null,
+   NOMBRE_MEDIDA        VARCHAR(15)          not null,
+   FECHA_INICIO         DATE                 not null,
+   FECHA_TERMINO        DATE                 not null,
+   AVANCE               DECIMAL              not null,
+   PERFIL_VOLUNTARIO    VARCHAR(20)          not null,
+   PERSONAS             INT4                 not null,
+   TIPO_TRABAJO         VARCHAR(20)          not null,
    DIRECCION            VARCHAR(50)          null,
    primary key (ID),
    FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFES(ID),
@@ -109,10 +111,10 @@ create table VOLUNTARIADOS (
 /*==============================================================*/
 create table CUENTAS_BANCO (
    ID                   INT4                 not null,
-   NUMERO_CUENTA        INT4                 null,
-   BANCO                VARCHAR(20)          null,
-   TIPO_CUENTA          INT4                 null,
-   RUN                  INT4                 null,
+   NUMERO_CUENTA        INT4                 not null,
+   BANCO                VARCHAR(20)          not null,
+   TIPO_CUENTA          INT4                 not null,
+   RUN                  INT4                 not null,
    primary key (ID)
 );
 
@@ -121,14 +123,14 @@ create table CUENTAS_BANCO (
 /*==============================================================*/
 create table RECOLECCIONES (
    ID                   INT4                 not null,
-   ID_CATASTROFE        INT4                 null,
-   ID_USUARIO           INT4                 null,
+   ID_CATASTROFE        INT4                 not null,
+   ID_USUARIO           INT4                 not null,
    ID_MURO             	INT4                 not null,
-   NOMBRE_MEDIDA        VARCHAR(15)          null,
-   FECHA_INICIO         DATE                 null,
-   FECHA_TERMINO        DATE                 null,
-   AVANCE               DECIMAL              null,
-   DIRECCION            VARCHAR(50)          null,
+   NOMBRE_MEDIDA        VARCHAR(15)          not null,
+   FECHA_INICIO         DATE                 not null,
+   FECHA_TERMINO        DATE                 not null,
+   AVANCE               DECIMAL              not null,
+   DIRECCION            VARCHAR(50)          not null,
    ELEMENTOSNECESARIOS  INT4                 not null,
    primary key (ID),
    FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFES(ID),
@@ -141,17 +143,16 @@ create table RECOLECCIONES (
 /*==============================================================*/
 create table APOYOS_ECONOMICOS (
    ID                   INT4                 not null,
-   ID_CUENTA            INT4                 null,
-   ID_CATASTROFE        INT4                 null,
-   ID_USUARIO           INT4                 null,
-   ID_MURO            	INT4                 null,
-   NOMBRE_MEDIDA        VARCHAR(15)          null,
-   FECHA_INICIO         DATE                 null,
-   FECHA_TERMINO        DATE                 null,
-   AVANCE               DECIMAL              null,
-   META                 INT4                 null,
-   RECAUDACION_ACTUAL   INT4                 null,
-
+   ID_CUENTA            INT4                 not null,
+   ID_CATASTROFE        INT4                 not null,
+   ID_USUARIO           INT4                 not null,
+   ID_MURO            	INT4                 not null,
+   NOMBRE_MEDIDA        VARCHAR(15)          not null,
+   FECHA_INICIO         DATE                 not null,
+   FECHA_TERMINO        DATE                 not null,
+   AVANCE               DECIMAL              not null,
+   META                 INT4                 not null,
+   RECAUDACION_ACTUAL   INT4                 not null,
    primary key (ID),
    FOREIGN KEY (ID_CUENTA) REFERENCES CUENTAS_BANCO(ID),
    FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFES(ID),
@@ -166,10 +167,10 @@ create table APOYOS_ECONOMICOS (
 /*==============================================================*/
 create table PERSONAS(
 	  ID			INT4				 not null,	
-    ID_RECOLECCION      INT4                 null,
-    ID_APOYO            INT4                 null,
-    ID_EVENTO           INT4                 null,
-    ID_VOLUNTARIADO     INT4                 null,
+    ID_RECOLECCION      INT4                 not null,
+    ID_APOYO            INT4                 not null,
+    ID_EVENTO           INT4                 not null,
+    ID_VOLUNTARIADO     INT4                 not null,
     RUN 				        INT4 				         not null,
     NOMBRE              VARCHAR(20)          not null,
     APELLIDO_PATERNO    VARCHAR(20)          not null,
@@ -185,12 +186,12 @@ create table PERSONAS(
 /* Table: DONACIONES                                              */
 /*==============================================================*/
 create table DONACIONES(
-	ID			INT4				 not null,
-	ID_PERSONA			INT4				 not null,	
-	ID_CUENTA			INT4				 not null,	
-	HORA				TIME 				 not null,
-	FECHA				DATE 				 not null,
-	MONTO 				MONEY				 not null,
+	ID			              INT4	  	     		   not null,
+	ID_PERSONA		     	  INT4	   	   		     not null,	
+	ID_CUENTA		  	      INT4  				       not null,	
+	HORA				          TIME 				         not null,
+	FECHA				          DATE 				         not null,
+	MONTO 				        INT4				         not null,
 	primary key (ID),
 	FOREIGN KEY (ID_PERSONA) REFERENCES PERSONAS(ID),
 	FOREIGN KEY (ID_CUENTA) REFERENCES CUENTAS_BANCO(ID)
@@ -202,8 +203,8 @@ create table DONACIONES(
 create table ELEMENTOS (
    ID                   INT4                 not null,
    ID_RECOLECCION       INT4                 not null,
-   NOMBRE               VARCHAR(15)          null,
-   CANTIDAD             INT4                 null,
+   NOMBRE               VARCHAR(15)          not null,
+   CANTIDAD             INT4                 not null,
    primary key (ID),
    FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCIONES(ID)
 );
@@ -213,12 +214,12 @@ create table ELEMENTOS (
 /*==============================================================*/
 create table MATERIALES (
    ID                   INT4                 not null,
-   ID_RECOLECCION       INT4                 null,
-   ID_APOYO             INT4                 null,
-   ID_EVENTO            INT4                 null,
-   ID_VOLUNTARIADO      INT4                 null,
-   NOMBRE               VARCHAR(15)          null,
-   CANTIDAD             INT4                 null,
+   ID_RECOLECCION       INT4                 not null,
+   ID_APOYO             INT4                 not null,
+   ID_EVENTO            INT4                 not null,
+   ID_VOLUNTARIADO      INT4                 not null,
+   NOMBRE               VARCHAR(15)          not null,
+   CANTIDAD             INT4                 not null,
    primary key (ID),
    FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCIONES(ID),
    FOREIGN KEY (ID_APOYO) REFERENCES APOYOS_ECONOMICOS(ID),
@@ -231,11 +232,11 @@ create table MATERIALES (
 /*==============================================================*/
 create table OBJETIVOS_DE_AYUDA (
    ID                   INT4                 not null,
-   ID_RECOLECCION       INT4                 null,
-   ID_APOYO             INT4                 null,
-   ID_EVENTO            INT4                 null,
-   ID_VOLUNTARIADO      INT4                 null,
-   DESCRIPCION          VARCHAR(100)         null,
+   ID_RECOLECCION       INT4                 not null,
+   ID_APOYO             INT4                 not null,
+   ID_EVENTO            INT4                 not null,
+   ID_VOLUNTARIADO      INT4                 not null,
+   DESCRIPCION          VARCHAR(100)         not null,
    primary key (ID),
    FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCIONES(ID),
    FOREIGN KEY (ID_APOYO) REFERENCES APOYOS_ECONOMICOS(ID),
@@ -311,14 +312,24 @@ CREATE OR REPLACE FUNCTION avanceRecoleccion(id INT)
 CREATE OR REPLACE FUNCTION avanceVoluntariado(id INT)
 RETURNS void AS $$
     BEGIN
-  UPDATE VOLUNTARIADOS SET avance = 100 * Cast(( SELECT COUNT(*) FROM PERSONAS WHERE PERSONAS.id_voluntariado=$1) AS decimal(5,3) ) / (SELECT personas FROM VOLUNTARIADOS WHERE VOLUNTARIADOS.ID = $1) WHERE VOLUNTARIADOS.ID=$1;
+  UPDATE VOLUNTARIADOS SET avance = 100 * Cast(( SELECT COUNT(*) FROM PERSONAS WHERE PERSONAS.id_voluntariado=$1) AS decimal(5,3) ) / (SELECT PERSONAS FROM VOLUNTARIADOS WHERE VOLUNTARIADOS.ID = $1) WHERE VOLUNTARIADOS.ID=$1;
     END;
     $$ LANGUAGE plpgsql;
 -- select avanceVoluntariado(1)
 
 
 
+/*==============================================================*/
+/* Stored Procedure: avanceEvento()                       */
+/*==============================================================*/
+CREATE OR REPLACE FUNCTION avanceEvento(id INT)
+RETURNS void AS $$
+    BEGIN
+  UPDATE EVENTOS SET avance = 100 * Cast(( SELECT SUM(ACTIVIDADES.RECAUDACION) FROM ACTIVIDADES WHERE ACTIVIDADES.ID_EVENTO=$1) AS decimal(5,3) ) / (SELECT META FROM EVENTOS WHERE EVENTOS.ID = $1) WHERE VOLUNTARIADOS.ID=$1;
+    END;
+    $$ LANGUAGE plpgsql;
 
+-- EVENTOS
 
 
 
