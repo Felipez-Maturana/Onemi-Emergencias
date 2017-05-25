@@ -1,17 +1,17 @@
 /*==============================================================*/
-/* Table: MURO                                                  */
+/* Table: MUROS                                                 */
 /*==============================================================*/
-create table MURO (
+create table MUROS (
     ID          	INT4                 not null,
     primary key (ID)
 );
 	
 /*==============================================================*/
-/* Table: USUARIO                                               */
+/* Table: USUARIOS                                              */
 /*==============================================================*/
-create table USUARIO (
+create table USUARIOS (
    ID           INT4                 not null,
-   USUARIO              VARCHAR(25)          not null,
+   USUARIOS              VARCHAR(25)          not null,
    PASSWORD             VARCHAR(15)          not null,
    TIPO_USUARIO         INT4                 null,
    RUN                  INT4                 null,
@@ -23,35 +23,35 @@ create table USUARIO (
 );
 
 /*==============================================================*/
-/* Table: HISTORIAL                                             */
+/* Table: HISTORIALES                                           */
 /*==============================================================*/
-create table HISTORIAL (
+create table HISTORIALES (
    ID          	INT4                 not null,
    ID_USUARIO				INT4                 not null,
    FECHA 					DATE 				 not null,
    HORA 					TIME 				 not null,
    primary key (ID),
-   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID)
+   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID)
 );
 
 /*==============================================================*/
-/* Table: CATASTROFE                                            */
+/* Table: CATASTROFES                                           */
 /*==============================================================*/
-create table CATASTROFE (
+create table CATASTROFES (
    ID        INT4                 not null,
    ID_USUARIO           INT4                 null,
    DESCRIPCION	        VARCHAR(20)          null,
    REGION               VARCHAR(15)          null,
    COMUNA               VARCHAR(15)          null,
    primary key (ID),
-   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID)
+   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID)
 );
 
 /*==============================================================*/
-/* Table: EVENTO                                                */
+/* Table: EVENTOS                                               */
 /*==============================================================*/
-create table EVENTO (
-   ID            INT4                 not null,
+create table EVENTOS (
+   ID                   INT4                 not null,
    ID_CATASTROFE        INT4                 not null,
    ID_USUARIO           INT4                 not null,
    ID_MURO             	INT4                 null,
@@ -64,28 +64,28 @@ create table EVENTO (
    HORA                 TIME                 null,
    MONTO_RECAUDADO      INT4                 null,
    primary key (ID),
-   FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFE(ID),
-   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID),
-   FOREIGN KEY (ID_MURO) REFERENCES MURO(ID)
+   FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFES(ID),
+   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID),
+   FOREIGN KEY (ID_MURO) REFERENCES MUROS(ID)
 );
 
 /*==============================================================*/
-/* Table: ACTIVIDAD                                             */
+/* Table: ACTIVIDADES                                             */
 /*==============================================================*/
-create table ACTIVIDAD (
-   ID         INT4                 not null,
+create table ACTIVIDADES (
+   ID                   INT4                 not null,
    ID_EVENTO	       		INT4		        		 not null,
    ID_USUARIO           INT4                 not null,
    DESCRIPCION          VARCHAR(100)         null,
    PRIMARY KEY (ID),
-   FOREIGN KEY (ID_EVENTO) REFERENCES EVENTO(ID),
-   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID)
+   FOREIGN KEY (ID_EVENTO) REFERENCES EVENTOS(ID),
+   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID)
 );
 
 /*==============================================================*/
-/* Table: VOLUNTARIADO                                          */
+/* Table: VOLUNTARIADOS                                          */
 /*==============================================================*/
-create table VOLUNTARIADO (
+create table VOLUNTARIADOS (
    ID      INT4                 not null,
    ID_CATASTROFE        INT4                 not null,
    ID_USUARIO           INT4                 not null,
@@ -99,15 +99,15 @@ create table VOLUNTARIADO (
    TIPO_TRABAJO         VARCHAR(20)          null,
    DIRECCION            VARCHAR(50)          null,
    primary key (ID),
-   FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFE(ID),
-   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID),
-   FOREIGN KEY (ID_MURO) REFERENCES MURO(ID)
+   FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFES(ID),
+   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID),
+   FOREIGN KEY (ID_MURO) REFERENCES MUROS(ID)
 );
 
 /*==============================================================*/
-/* Table: CUENTA_BANCO                                          */
+/* Table: CUENTAS_BANCO                                          */
 /*==============================================================*/
-create table CUENTA_BANCO (
+create table CUENTAS_BANCO (
    ID                   INT4                 not null,
    NUMERO_CUENTA        INT4                 null,
    BANCO                VARCHAR(20)          null,
@@ -117,9 +117,9 @@ create table CUENTA_BANCO (
 );
 
 /*==============================================================*/
-/* Table: RECOLECCION                                           */
+/* Table: RECOLECCIONES                                           */
 /*==============================================================*/
-create table RECOLECCION (
+create table RECOLECCIONES (
    ID                   INT4                 not null,
    ID_CATASTROFE        INT4                 null,
    ID_USUARIO           INT4                 null,
@@ -131,16 +131,16 @@ create table RECOLECCION (
    DIRECCION            VARCHAR(50)          null,
    ELEMENTOSNECESARIOS  INT4                 not null,
    primary key (ID),
-   FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFE(ID),
-   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID),
-   FOREIGN KEY (ID_MURO) REFERENCES MURO(ID)
+   FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFES(ID),
+   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID),
+   FOREIGN KEY (ID_MURO) REFERENCES MUROS(ID)
 );
 
 /*==============================================================*/
-/* Table: APOYO_ECONOMICO                                       */
+/* Table: APOYOS_ECONOMICOS                                       */
 /*==============================================================*/
-create table APOYO_ECONOMICO (
-   ID             INT4                 not null,
+create table APOYOS_ECONOMICOS (
+   ID                   INT4                 not null,
    ID_CUENTA            INT4                 null,
    ID_CATASTROFE        INT4                 null,
    ID_USUARIO           INT4                 null,
@@ -153,38 +153,38 @@ create table APOYO_ECONOMICO (
    RECAUDACION_ACTUAL   INT4                 null,
 
    primary key (ID),
-   FOREIGN KEY (ID_CUENTA) REFERENCES CUENTA_BANCO(ID),
-   FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFE(ID),
-   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID),
-   FOREIGN KEY (ID_MURO) REFERENCES MURO(ID)
+   FOREIGN KEY (ID_CUENTA) REFERENCES CUENTAS_BANCO(ID),
+   FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFES(ID),
+   FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID),
+   FOREIGN KEY (ID_MURO) REFERENCES MUROS(ID)
 );
 
 
 
 /*==============================================================*/
-/* Table: PERSONA                                               */
+/* Table: PERSONAS                                               */
 /*==============================================================*/
-create table PERSONA(
+create table PERSONAS(
 	  ID			INT4				 not null,	
     ID_RECOLECCION      INT4                 null,
     ID_APOYO            INT4                 null,
     ID_EVENTO           INT4                 null,
     ID_VOLUNTARIADO     INT4                 null,
-    RUN 				INT4 				 not null,
+    RUN 				        INT4 				         not null,
     NOMBRE              VARCHAR(20)          not null,
     APELLIDO_PATERNO    VARCHAR(20)          not null,
     APELLIDO_MATERNO    VARCHAR(20)          not null, 
     primary key (ID),
-    FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCION(ID),
-    FOREIGN KEY (ID_APOYO) REFERENCES APOYO_ECONOMICO(ID),
-    FOREIGN KEY (ID_EVENTO) REFERENCES EVENTO(ID),
-    FOREIGN KEY (ID_VOLUNTARIADO) REFERENCES VOLUNTARIADO(ID)
+    FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCIONES(ID),
+    FOREIGN KEY (ID_APOYO) REFERENCES APOYOS_ECONOMICOS(ID),
+    FOREIGN KEY (ID_EVENTO) REFERENCES EVENTOS(ID),
+    FOREIGN KEY (ID_VOLUNTARIADO) REFERENCES VOLUNTARIADOS(ID)
 );
 
 /*==============================================================*/
-/* Table: DONACION                                              */
+/* Table: DONACIONES                                              */
 /*==============================================================*/
-create table DONACION(
+create table DONACIONES(
 	ID			INT4				 not null,
 	ID_PERSONA			INT4				 not null,	
 	ID_CUENTA			INT4				 not null,	
@@ -192,27 +192,27 @@ create table DONACION(
 	FECHA				DATE 				 not null,
 	MONTO 				MONEY				 not null,
 	primary key (ID),
-	FOREIGN KEY (ID_PERSONA) REFERENCES PERSONA(ID),
-	FOREIGN KEY (ID_CUENTA) REFERENCES CUENTA_BANCO(ID)
+	FOREIGN KEY (ID_PERSONA) REFERENCES PERSONAS(ID),
+	FOREIGN KEY (ID_CUENTA) REFERENCES CUENTAS_BANCO(ID)
 );
 
 /*==============================================================*/
 /* Table: ELEMENTOS                                             */
 /*==============================================================*/
 create table ELEMENTOS (
-   ID          INT4                 not null,
+   ID                   INT4                 not null,
    ID_RECOLECCION       INT4                 not null,
    NOMBRE               VARCHAR(15)          null,
    CANTIDAD             INT4                 null,
    primary key (ID),
-   FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCION(ID)
+   FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCIONES(ID)
 );
 
 /*==============================================================*/
 /* Table: MATERIALES                                            */
 /*==============================================================*/
 create table MATERIALES (
-   ID          INT4                 not null,
+   ID                   INT4                 not null,
    ID_RECOLECCION       INT4                 null,
    ID_APOYO             INT4                 null,
    ID_EVENTO            INT4                 null,
@@ -220,40 +220,40 @@ create table MATERIALES (
    NOMBRE               VARCHAR(15)          null,
    CANTIDAD             INT4                 null,
    primary key (ID),
-   FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCION(ID),
-   FOREIGN KEY (ID_APOYO) REFERENCES APOYO_ECONOMICO(ID),
-   FOREIGN KEY (ID_EVENTO) REFERENCES EVENTO(ID),
-   FOREIGN KEY (ID_VOLUNTARIADO) REFERENCES VOLUNTARIADO(ID)
+   FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCIONES(ID),
+   FOREIGN KEY (ID_APOYO) REFERENCES APOYOS_ECONOMICOS(ID),
+   FOREIGN KEY (ID_EVENTO) REFERENCES EVENTOS(ID),
+   FOREIGN KEY (ID_VOLUNTARIADO) REFERENCES VOLUNTARIADOS(ID)
 );
 
 /*==============================================================*/
-/* Table: OBJETIVO_DE_AYUDA                                     */
+/* Table: OBJETIVOS_DE_AYUDA                                     */
 /*==============================================================*/
-create table OBJETIVO_DE_AYUDA (
-   ID          INT4                 not null,
+create table OBJETIVOS_DE_AYUDA (
+   ID                   INT4                 not null,
    ID_RECOLECCION       INT4                 null,
    ID_APOYO             INT4                 null,
    ID_EVENTO            INT4                 null,
    ID_VOLUNTARIADO      INT4                 null,
    DESCRIPCION          VARCHAR(100)         null,
    primary key (ID),
-   FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCION(ID),
-   FOREIGN KEY (ID_APOYO) REFERENCES APOYO_ECONOMICO(ID),
-   FOREIGN KEY (ID_EVENTO) REFERENCES EVENTO(ID),
-   FOREIGN KEY (ID_VOLUNTARIADO) REFERENCES VOLUNTARIADO(ID)
+   FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCIONES(ID),
+   FOREIGN KEY (ID_APOYO) REFERENCES APOYOS_ECONOMICOS(ID),
+   FOREIGN KEY (ID_EVENTO) REFERENCES EVENTOS(ID),
+   FOREIGN KEY (ID_VOLUNTARIADO) REFERENCES VOLUNTARIADOS(ID)
 );
 
 /*==============================================================*/
-/* Table: COMENTARIO                                            */
+/* Table: COMENTARIOS                                            */
 /*==============================================================*/
-create table COMENTARIO (
-  	ID		INT4				 not null,
-    ID_MURO          	INT4                 not null,
-    ID_USUARIO           INT4 				 not null,
-    DESCRIPCION			VARCHAR(140)		 not null,
+create table COMENTARIOS (
+  	ID		               INT4			         	 not null,
+    ID_MURO          	   INT4                not null,
+    ID_USUARIO           INT4 	   			     not null,
+    DESCRIPCION			     VARCHAR(140)		     not null,
     primary key (ID),
-    FOREIGN KEY (ID_MURO) REFERENCES MURO(ID),
-    FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID) 
+    FOREIGN KEY (ID_MURO) REFERENCES MUROS(ID),
+    FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID) 
 );
 
 
@@ -265,14 +265,14 @@ CREATE OR REPLACE FUNCTION noborrar()
   RETURNS trigger AS
 $BODY$
 BEGIN
-  UPDATE usuario SET visible=false WHERE id=OLD.id;
+  UPDATE USUARIOS SET visible=false WHERE id=OLD.id;
   RETURN NULL;
 END; $BODY$
   LANGUAGE plpgsql
 
 CREATE TRIGGER delete_trg
   BEFORE DELETE
-  ON usuario
+  ON USUARIOS
   FOR EACH ROW
   EXECUTE PROCEDURE public.noborrar();
 
@@ -283,7 +283,7 @@ CREATE TRIGGER delete_trg
 CREATE OR REPLACE FUNCTION avanceApoyoEconomico(id INT) 
     RETURNS void AS $$
     BEGIN
-      UPDATE APOYO_ECONOMICO SET avance = Cast ( (SELECT RECAUDACION_ACTUAL FROM APOYO_ECONOMICO WHERE APOYO_ECONOMICO.ID = $1) as decimal(5,3) ) /(SELECT META FROM APOYO_ECONOMICO WHERE APOYO_ECONOMICO.ID = $1) WHERE APOYO_ECONOMICO.ID=$1;
+      UPDATE APOYOS_ECONOMICOS SET avance = 100*Cast ( (SELECT RECAUDACION_ACTUAL FROM APOYOS_ECONOMICOS WHERE APOYOS_ECONOMICOS.ID = $1) as decimal(5,3) ) /(SELECT META FROM APOYOS_ECONOMICOS WHERE APOYOS_ECONOMICOS.ID = $1) WHERE APOYOS_ECONOMICOS.ID=$1;
     END;
     $$ LANGUAGE plpgsql;
     
@@ -295,13 +295,13 @@ CREATE OR REPLACE FUNCTION avanceApoyoEconomico(id INT)
 CREATE OR REPLACE FUNCTION avanceRecoleccion(id INT) 
     RETURNS void AS $$
     BEGIN
-      UPDATE RECOLECCION SET avance = Cast((SELECT sum(elementos.cantidad) FROM elementos WHERE elementos.id_recoleccion=$1) AS decimal(5,3) ) / (SELECT ELEMENTOSNECESARIOS FROM RECOLECCION WHERE RECOLECCION.ID = $1) WHERE RECOLECCION.ID=$1;
+      UPDATE RECOLECCIONES SET avance = 100*Cast((SELECT sum(elementos.cantidad) FROM elementos WHERE elementos.id_recoleccion=$1) AS decimal(5,3) ) / (SELECT ELEMENTOSNECESARIOS FROM RECOLECCIONES WHERE RECOLECCIONES.ID = $1) WHERE RECOLECCIONES.ID=$1;
     END;
     $$ LANGUAGE plpgsql;
 
     
--- tabla con la cantidad total de elementos por cada evento de recoleccion
--- SELECT recoleccion.id,sum(elementos.cantidad) FROM recoleccion, elementos WHERE recoleccion.id=elementos.id_recoleccion GROUP BY recoleccion.id
+-- tabla con la cantidad total de elementos por cada EVENTOS de RECOLECCIONES
+-- SELECT RECOLECCIONES.id,sum(elementos.cantidad) FROM RECOLECCIONES, elementos WHERE RECOLECCIONES.id=elementos.id_recoleccion GROUP BY RECOLECCIONES.id
 
 
 
@@ -311,7 +311,7 @@ CREATE OR REPLACE FUNCTION avanceRecoleccion(id INT)
 CREATE OR REPLACE FUNCTION avanceVoluntariado(id INT)
 RETURNS void AS $$
     BEGIN
-  UPDATE voluntariado SET avance = Cast(( SELECT COUNT(*) FROM persona WHERE persona.id_voluntariado=$1) AS decimal(1,1) ) / (SELECT personas FROM voluntariado WHERE voluntariado.ID = $1) WHERE voluntariado.ID=$1;
+  UPDATE VOLUNTARIADOS SET avance = 100 * Cast(( SELECT COUNT(*) FROM PERSONAS WHERE PERSONAS.id_voluntariado=$1) AS decimal(5,3) ) / (SELECT personas FROM VOLUNTARIADOS WHERE VOLUNTARIADOS.ID = $1) WHERE VOLUNTARIADOS.ID=$1;
     END;
     $$ LANGUAGE plpgsql;
 -- select avanceVoluntariado(1)
@@ -323,11 +323,28 @@ RETURNS void AS $$
 
 
 
--- *********************************************************************FUNCTIONS
--- CREATE FUNCTION clienteDelete(integer) RETURNS TRIGGER AS $_$
--- BEGIN
---     UPDATE usuario SET activo=0 WHERE usuario_id = $1
--- END $_$ LANGUAGE 'plpgsql';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -347,7 +364,7 @@ RETURNS void AS $$
 -- 	ID_COMENTARIO		INT4				 not null,
 --     ID_MURO          	INT4                 not null,
 --     FOREIGN KEY (ID_MURO) REFERENCES MURO(ID_MURO),
---     FOREIGN KEY (ID_COMENTARIO) REFERENCES COMENTARIO(ID_COMENTARIO) 
+--     FOREIGN KEY (ID_COMENTARIO) REFERENCES COMENTARIOS(ID_COMENTARIO) 
 -- );
 
 -- /*==============================================================*/
@@ -360,11 +377,11 @@ RETURNS void AS $$
 --     ID_EVENTO            INT4                 null,
 --     ID_VOLUNTARIADO      INT4                 null,
 --     VALIDA 				 BOOLEAN              not null,			
---     FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID_MEDIDA),
---     FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCION(ID_RECOLECCION),
---     FOREIGN KEY (ID_APOYO) REFERENCES APOYO_ECONOMICO(ID_APOYO),
---     FOREIGN KEY (ID_EVENTO) REFERENCES EVENTO(ID_EVENTO),
---     FOREIGN KEY (ID_VOLUNTARIADO) REFERENCES VOLUNTARIADO(ID_VOLUNTARIADO)    
+--     FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID_MEDIDA),
+--     FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCIONES(ID_RECOLECCION),
+--     FOREIGN KEY (ID_APOYO) REFERENCES APOYOS_ECONOMICOS(ID_APOYO),
+--     FOREIGN KEY (ID_EVENTO) REFERENCES EVENTOS(ID_EVENTO),
+--     FOREIGN KEY (ID_VOLUNTARIADO) REFERENCES VOLUNTARIADOS(ID_VOLUNTARIADO)    
 -- );
 
 -- /*==============================================================*/
@@ -376,10 +393,10 @@ RETURNS void AS $$
 --     ID_APOYO             INT4                 null,
 --     ID_EVENTO            INT4                 null,
 --     ID_VOLUNTARIADO      INT4                 null,			
---     FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID_MEDIDA),
---     FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCION(ID_RECOLECCION),
---     FOREIGN KEY (ID_APOYO) REFERENCES APOYO_ECONOMICO(ID_APOYO),
---     FOREIGN KEY (ID_EVENTO) REFERENCES EVENTO(ID_EVENTO),
---     FOREIGN KEY (ID_VOLUNTARIADO) REFERENCES VOLUNTARIADO(ID_VOLUNTARIADO)    
+--     FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID_MEDIDA),
+--     FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCIONES(ID_RECOLECCION),
+--     FOREIGN KEY (ID_APOYO) REFERENCES APOYOS_ECONOMICOS(ID_APOYO),
+--     FOREIGN KEY (ID_EVENTO) REFERENCES EVENTOS(ID_EVENTO),
+--     FOREIGN KEY (ID_VOLUNTARIADO) REFERENCES VOLUNTARIADOS(ID_VOLUNTARIADO)    
 -- );
 
