@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                ONEMI DBD, algo para probar git, probar denuevo el git
+                    Laravel 222
                 </div>
 
                 <div class="links">

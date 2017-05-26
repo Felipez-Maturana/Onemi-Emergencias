@@ -24,7 +24,7 @@ class CreatePersonasTable extends Migration
             $table->foreign('id_recoleccion')->references('id')->on('recolecciones')->onDelete('cascade');
 
             $table->integer('id_apoyo');
-            $table->foreign('id_apoyo')->references('id')->on('catastrofes')->onDelete('cascade');
+            $table->foreign('id_apoyo')->references('id')->on('apoyos_economicos')->onDelete('cascade');
 
             $table->integer('id_evento');
             $table->foreign('id_evento')->references('id')->on('eventos')->onDelete('cascade');

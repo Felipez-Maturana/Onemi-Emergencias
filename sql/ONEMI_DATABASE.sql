@@ -163,14 +163,14 @@ create table APOYOS_ECONOMICOS (
 
 
 /*==============================================================*/
-/* Table: PERSONAS                                               */
+/* Table: PERSONAS                                              */
 /*==============================================================*/
 create table PERSONAS(
-	  ID			INT4				 not null,	
-    ID_RECOLECCION      INT4                 not null,
-    ID_APOYO            INT4                 not null,
-    ID_EVENTO           INT4                 not null,
-    ID_VOLUNTARIADO     INT4                 not null,
+	  ID			            INT4				         not null,	
+    ID_RECOLECCION      INT4                 null,
+    ID_APOYO            INT4                 null,
+    ID_EVENTO           INT4                 null,
+    ID_VOLUNTARIADO     INT4                 null,
     RUN 				        INT4 				         not null,
     NOMBRE              VARCHAR(20)          not null,
     APELLIDO_PATERNO    VARCHAR(20)          not null,
@@ -214,10 +214,10 @@ create table ELEMENTOS (
 /*==============================================================*/
 create table MATERIALES (
    ID                   INT4                 not null,
-   ID_RECOLECCION       INT4                 not null,
-   ID_APOYO             INT4                 not null,
-   ID_EVENTO            INT4                 not null,
-   ID_VOLUNTARIADO      INT4                 not null,
+   ID_RECOLECCION       INT4                 null,
+   ID_APOYO             INT4                 null,
+   ID_EVENTO            INT4                 null,
+   ID_VOLUNTARIADO      INT4                 null,
    NOMBRE               VARCHAR(15)          not null,
    CANTIDAD             INT4                 not null,
    primary key (ID),
@@ -232,10 +232,10 @@ create table MATERIALES (
 /*==============================================================*/
 create table OBJETIVOS_DE_AYUDA (
    ID                   INT4                 not null,
-   ID_RECOLECCION       INT4                 not null,
-   ID_APOYO             INT4                 not null,
-   ID_EVENTO            INT4                 not null,
-   ID_VOLUNTARIADO      INT4                 not null,
+   ID_RECOLECCION       INT4                 null,
+   ID_APOYO             INT4                 null,
+   ID_EVENTO            INT4                 null,
+   ID_VOLUNTARIADO      INT4                 null,
    DESCRIPCION          VARCHAR(100)         not null,
    primary key (ID),
    FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCIONES(ID),
@@ -269,7 +269,7 @@ BEGIN
   UPDATE USUARIOS SET visible=false WHERE id=OLD.id;
   RETURN NULL;
 END; $BODY$
-  LANGUAGE plpgsql
+  LANGUAGE plpgsql;
 
 CREATE TRIGGER delete_trg
   BEFORE DELETE
