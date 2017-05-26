@@ -54,6 +54,7 @@ create table EVENTOS (
    ID                   INT4                 not null,
    ID_CATASTROFE        INT4                 not null,
    ID_USUARIO           INT4                 not null,
+   ID_USUARIO_VALIDA    INT4                 null,
    ID_MURO             	INT4                 not null,
    NOMBRE_MEDIDA        VARCHAR(25)          not null,
    FECHA_INICIO         DATE                 not null,
@@ -64,9 +65,11 @@ create table EVENTOS (
    HORA                 TIME                 not null,
    META                 INT4                 not null,
    RECAUDACION_ACTUAL   INT4                 not null,
+   VALIDA               BOOLEAN              not null,
    PRIMARY KEY (ID),
    FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFES(ID),
    FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID),
+   FOREIGN KEY (ID_USUARIO_VALIDA) REFERENCES USUARIOS(ID),
    FOREIGN KEY (ID_MURO) REFERENCES MUROS(ID)
 );
 
@@ -91,6 +94,7 @@ create table VOLUNTARIADOS (
    ID                   INT4                 not null,
    ID_CATASTROFE        INT4                 not null,
    ID_USUARIO           INT4                 not null,
+   ID_USUARIO_VALIDA    INT4                 null,
    ID_MURO             	INT4                 not null,
    NOMBRE_MEDIDA        VARCHAR(15)          not null,
    FECHA_INICIO         DATE                 not null,
@@ -100,9 +104,11 @@ create table VOLUNTARIADOS (
    PERSONAS             INT4                 not null,
    TIPO_TRABAJO         VARCHAR(20)          not null,
    DIRECCION            VARCHAR(50)          null,
+   VALIDA               BOOLEAN              not null,
    primary key (ID),
    FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFES(ID),
    FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID),
+   FOREIGN KEY (ID_USUARIO_VALIDA) REFERENCES USUARIOS(ID),
    FOREIGN KEY (ID_MURO) REFERENCES MUROS(ID)
 );
 
@@ -125,6 +131,7 @@ create table RECOLECCIONES (
    ID                   INT4                 not null,
    ID_CATASTROFE        INT4                 not null,
    ID_USUARIO           INT4                 not null,
+   ID_USUARIO_VALIDA    INT4                 null,
    ID_MURO             	INT4                 not null,
    NOMBRE_MEDIDA        VARCHAR(15)          not null,
    FECHA_INICIO         DATE                 not null,
@@ -132,9 +139,11 @@ create table RECOLECCIONES (
    AVANCE               DECIMAL              not null,
    DIRECCION            VARCHAR(50)          not null,
    ELEMENTOSNECESARIOS  INT4                 not null,
+   VALIDA               BOOLEAN              not null,
    primary key (ID),
    FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFES(ID),
    FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID),
+   FOREIGN KEY (ID_USUARIO_VALIDA) REFERENCES USUARIOS(ID),
    FOREIGN KEY (ID_MURO) REFERENCES MUROS(ID)
 );
 
@@ -146,6 +155,7 @@ create table APOYOS_ECONOMICOS (
    ID_CUENTA            INT4                 not null,
    ID_CATASTROFE        INT4                 not null,
    ID_USUARIO           INT4                 not null,
+   ID_USUARIO_VALIDA    INT4                 null,
    ID_MURO            	INT4                 not null,
    NOMBRE_MEDIDA        VARCHAR(15)          not null,
    FECHA_INICIO         DATE                 not null,
@@ -153,10 +163,12 @@ create table APOYOS_ECONOMICOS (
    AVANCE               DECIMAL              not null,
    META                 INT4                 not null,
    RECAUDACION_ACTUAL   INT4                 not null,
+   VALIDA               BOOLEAN              not null,
    primary key (ID),
    FOREIGN KEY (ID_CUENTA) REFERENCES CUENTAS_BANCO(ID),
    FOREIGN KEY (ID_CATASTROFE) REFERENCES CATASTROFES(ID),
    FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID),
+   FOREIGN KEY (ID_USUARIO_VALIDA) REFERENCES USUARIOS(ID),  
    FOREIGN KEY (ID_MURO) REFERENCES MUROS(ID)
 );
 
