@@ -284,10 +284,10 @@ CREATE TRIGGER delete_trg
 CREATE OR REPLACE FUNCTION avanceApoyoEconomico(id INT) 
     RETURNS void AS $$
     BEGIN
-      UPDATE APOYOS_ECONOMICOS SET avance = 100*Cast ( (SELECT RECAUDACION_ACTUAL FROM APOYOS_ECONOMICOS WHERE APOYOS_ECONOMICOS.ID = $1) as decimal(5,3) ) /(SELECT META FROM APOYOS_ECONOMICOS WHERE APOYOS_ECONOMICOS.ID = $1) WHERE APOYOS_ECONOMICOS.ID=$1;
+      UPDATE APOYOS_ECONOMICOS SET RECAUDACION_ACTUAL = (SELECT SUM(monto) FROM DONACIONES WHERE DONACIONES.ID_CUENTA = (SELECT ID_CUENTA FROM APOYOS_ECONOMICOS WHERE APOYOS_ECONOMICOS.ID=$1 )) WHERE APOYOS_ECONOMICOS.ID=$1;
+      UPDATE APOYOS_ECONOMICOS SET avance = 100*Cast ( (SELECT RECAUDACION_ACTUAL FROM APOYOS_ECONOMICOS WHERE APOYOS_ECONOMICOS.ID = $1) as decimal(50,17) ) /(SELECT META FROM APOYOS_ECONOMICOS WHERE APOYOS_ECONOMICOS.ID = $1) WHERE APOYOS_ECONOMICOS.ID=$1;
     END;
-    $$ LANGUAGE plpgsql;
-    
+    $$ LANGUAGE plpgsql;    
 
 
 /*==============================================================*/
@@ -303,7 +303,6 @@ CREATE OR REPLACE FUNCTION avanceRecoleccion(id INT)
     
 -- tabla con la cantidad total de elementos por cada EVENTOS de RECOLECCIONES
 -- SELECT RECOLECCIONES.id,sum(elementos.cantidad) FROM RECOLECCIONES, elementos WHERE RECOLECCIONES.id=elementos.id_recoleccion GROUP BY RECOLECCIONES.id
-
 
 
 /*==============================================================*/
@@ -372,8 +371,8 @@ RETURNS void AS $$
 /* Table: COMENTARIOSMURO - INTERMEDIA                          */
 /*==============================================================*/
 -- create table COMENTARIOSMURO (
--- 	ID_COMENTARIO		INT4				 not null,
---     ID_MURO          	INT4                 not null,
+--  ID_COMENTARIO   INT4         not null,
+--     ID_MURO            INT4                 not null,
 --     FOREIGN KEY (ID_MURO) REFERENCES MURO(ID_MURO),
 --     FOREIGN KEY (ID_COMENTARIO) REFERENCES COMENTARIOS(ID_COMENTARIO) 
 -- );
@@ -382,12 +381,12 @@ RETURNS void AS $$
 -- /* Table: USUARIOARIOMEDIDA - INTERMEDIA                            */
 -- /*==============================================================*/
 -- create table USUARIOMEDIDA (
--- 	ID_USUARIO  		INT4				  not null,
--- 	ID_RECOLECCION       INT4                 null,
+--  ID_USUARIO      INT4          not null,
+--  ID_RECOLECCION       INT4                 null,
 --     ID_APOYO             INT4                 null,
 --     ID_EVENTO            INT4                 null,
 --     ID_VOLUNTARIADO      INT4                 null,
---     VALIDA 				 BOOLEAN              not null,			
+--     VALIDA          BOOLEAN              not null,     
 --     FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID_MEDIDA),
 --     FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCIONES(ID_RECOLECCION),
 --     FOREIGN KEY (ID_APOYO) REFERENCES APOYOS_ECONOMICOS(ID_APOYO),
@@ -399,11 +398,11 @@ RETURNS void AS $$
 -- /* Table: USUARIOMEDIDAGENERA - INTERMEDIA                      */
 -- /*==============================================================*/
 -- create table USUARIOMEDIDAGENERA (
--- 	ID_USUARIO  		INT4				  not null,
--- 	ID_RECOLECCION       INT4                 null,
+--  ID_USUARIO      INT4          not null,
+--  ID_RECOLECCION       INT4                 null,
 --     ID_APOYO             INT4                 null,
 --     ID_EVENTO            INT4                 null,
---     ID_VOLUNTARIADO      INT4                 null,			
+--     ID_VOLUNTARIADO      INT4                 null,      
 --     FOREIGN KEY (ID_USUARIO) REFERENCES USUARIOS(ID_MEDIDA),
 --     FOREIGN KEY (ID_RECOLECCION) REFERENCES RECOLECCIONES(ID_RECOLECCION),
 --     FOREIGN KEY (ID_APOYO) REFERENCES APOYOS_ECONOMICOS(ID_APOYO),
@@ -411,3 +410,10 @@ RETURNS void AS $$
 --     FOREIGN KEY (ID_VOLUNTARIADO) REFERENCES VOLUNTARIADOS(ID_VOLUNTARIADO)    
 -- );
 
+-- CREATE OR REPLACE FUNCTION avanceApoyoEconomico(id INT) 
+--     RETURNS void AS $$
+--     BEGIN
+--       UPDATE APOYOS_ECONOMICOS SET APOYOS_ECONOMICOS = (SELECT SUM(monto) FROM DONACIONES WHERE DONACIONES.ID = $1) WHERE APOYOS_ECONOMICOS.ID=$1;
+--       UPDATE APOYOS_ECONOMICOS SET avance = 100*Cast ( (SELECT RECAUDACION_ACTUAL FROM APOYOS_ECONOMICOS WHERE APOYOS_ECONOMICOS.ID = $1) as decimal(5,3) ) /(SELECT META FROM APOYOS_ECONOMICOS WHERE APOYOS_ECONOMICOS.ID = $1) WHERE APOYOS_ECONOMICOS.ID=$1;
+--     END;
+--     $$ LANGUAGE plpgsql;
